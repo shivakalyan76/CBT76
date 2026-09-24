@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: cbt76-backend
+    env: node
+    plan: starter
+    rootDir: server
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: CLIENT_URL
+        sync: false
+      - key: COOKIE_SAMESITE
+        value: none
+      - key: SESSION_TTL_HOURS
+        value: 12
+      - key: DB_POOL_MAX
+        value: 35
