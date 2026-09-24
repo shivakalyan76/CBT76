@@ -5,14 +5,17 @@ import { prisma } from "../src/db";
 async function main() {
   const isProd = process.env.NODE_ENV === "production";
   const adminPw = await argon2.hash(process.env.SEED_ADMIN_PASSWORD ?? "ChangeMe-Admin-123");
+  const adminEmail = process.env.SEED_ADMIN_EMAIL ?? "admin@example.com";
 
   await prisma.user.upsert({
     where: { loginId: "admin" },
-    update: {},
+    update: {
+      email: adminEmail,
+    },
     create: {
       name: isProd ? "Admin" : "Demo Admin",
       loginId: "admin",
-      email: "admin@example.com",
+      email: adminEmail,
       passwordHash: adminPw,
       role: "ADMIN",
     },
